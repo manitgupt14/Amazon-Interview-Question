@@ -1,0 +1,65 @@
+class Solution {
+public:
+    bool isvalid(vector<vector<char>> &board,vector<int> check,char ch)
+    {
+        int row=check[0];
+        int col=check[1];
+        
+        for(int i=0;i<9;i++)
+            if(board[row][i]==ch)
+                return false;
+        
+        for(int j=0;j<9;j++)
+            if(board[j][col]==ch)
+                return false;
+        
+        int t=(row/3)*3;
+        int w=(col/3)*3;
+        
+        for(int i=t;i<t+3;i++)
+        {
+            for(int j=w;j<w+3;j++)
+            {
+                if(board[i][j]==ch)
+                    return false;
+            }
+        }
+        
+        return true;
+    }
+    bool solve(vector<vector<char>> &board,vector<vector<int>> sol,int re)
+    {
+        if(re==sol.size())
+            return true;
+        
+        for(int i=1;i<=9;i++)
+        {
+            if(isvalid(board,sol[re],(i+'0')))
+            {
+            board[sol[re][0]][sol[re][1]]=(i+'0');
+             if(solve(board,sol,re+1))
+                 return true;
+            board[sol[re][0]][sol[re][1]]='.';
+            }
+        }
+        
+        return false;
+        
+    }
+    void solveSudoku(vector<vector<char>>& board) {
+        vector<vector<int>> sol;
+        
+        for(int i=0;i<9;i++)
+        {
+            for(int j=0;j<9;j++)
+            {
+                if(board[i][j]=='.')
+                    sol.push_back({i,j});
+            }
+        }
+        
+        solve(board,sol,0);
+        
+        return ;
+    }
+};

@@ -1,0 +1,13 @@
+class Solution {
+public:
+    bool check(TreeNode* lefttree,TreeNode* righttree)
+    {
+        if((!lefttree) and (!righttree)) return true;
+        
+        return (lefttree and righttree and lefttree->val==righttree->val and check(lefttree->left,righttree->right) and check(lefttree->right,righttree->left));
+    }
+    bool isSymmetric(TreeNode* root) {
+        if(!root) return true;
+        return check(root->left,root->right);
+    }
+};

@@ -1,0 +1,31 @@
+class Solution {
+    private:
+    TreeNode* insert(TreeNode *root,int vl,unordered_map<int,int> &mp)
+  {
+    if(!root) return new TreeNode(vl);
+    if(mp[root->val]<mp[vl])
+    {
+        root->right=insert(root->right,vl,mp);
+    }
+    else if(mp[root->val]>mp[vl])
+    {
+        root->left=insert(root->left,vl,mp);
+    }
+    return root;
+   }
+public:
+    TreeNode* buildTree(vector<int>& pre, vector<int>& in) {
+       int n=in.size(); 
+       unordered_map<int,int> mp;
+       for(int i=0;i<n;i++)
+       {
+           mp[in[i]]=i;
+       }
+       TreeNode *root=NULL;
+       for(int i=0;i<n;i++)
+       {
+            root=insert(root,pre[i],mp);
+       }
+       return root;
+    }
+};
